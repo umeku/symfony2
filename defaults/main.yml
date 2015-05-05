@@ -17,7 +17,7 @@ symfony2_php_cmd: /usr/bin/php
 symfony2_npm_cmd: npm
 
 # Bower path (only if using bower)
-symfony2_bower_cmd: bower
+symfony2_bower_cmd: bower --config.interactive=false
 
 
 ### Release configuration ###

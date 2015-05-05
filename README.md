@@ -14,7 +14,7 @@ It makes capifony-like directory structure:
     shared
       app/logs
       web/uploads
-    current
+    current -> release
 ```
 
 Requirements
@@ -29,19 +29,33 @@ Installation
 ansible-galaxy install umeku.symfony2
 ```
 
-Usage
------
+Example Playbook
+----------------
 
 ```yml
 - hosts: all
+  gather_facts: no
   vars:
     symfony2_name: project
-    symfony2_domain: "project.com"
     symfony2_repo: git@github.com:repo/project.git
+    symfony2_root: /var/www/{{ symfony2_name }}
+    symfony2_shared_dirs:
+      - app/logs
+      - web/media
+      - web/uploads
+    symfony2_console_commands:
+      - "assets:install --symlink web"
+      - "assetic:dump --no-debug"
+      - "doctrine:schema:update --force"
+      - "cache:warmup"
+    symfony2_extra_commands:
+      - "gulp default"
 
   roles:
     - umeku.symfony2
 ```
+
+Check [defaults/main.yml](defaults/main.yml) for more configuration options.
 
 License
 -------

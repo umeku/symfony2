@@ -1,0 +1,26 @@
+---
+
+- name: Symfony2 | Set symfony2_release_root
+  set_fact:
+    symfony2_release_root: "{{ symfony2_root }}/releases"
+  when: symfony2_release_root is not defined
+
+- name: Symfony2 | Set symfony2_shared_root
+  set_fact:
+    symfony2_shared_root: "{{ symfony2_root }}/shared"
+  when: symfony2_shared_root is not defined
+
+- name: Symfony2 | Set symfony2_current_root
+  set_fact:
+    symfony2_current_root: "{{ symfony2_root }}/current"
+  when: symfony2_current_root is not defined
+
+- name: Symfony2 | Check if previous release exists
+  stat:
+    path: "{{ symfony2_current_root }}"
+  register: result
+
+- name: Symfony2 | Set symfony2_previous_release
+  set_fact:
+    symfony2_previous_release: "{{ (result.stat.lnk_source is defined) | ternary(result.stat.lnk_source,result.stat.path) }}"
+  when: result.stat.exists

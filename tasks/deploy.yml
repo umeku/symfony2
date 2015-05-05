@@ -1,0 +1,21 @@
+---
+
+- include: deploy-git.yml
+  when: "'git' == symfony2_deploy_strategy"
+
+- include: deploy-mercurial.yml
+  when: "'mercurial' == symfony2_deploy_strategy"
+
+- include: deploy-svn.yml
+  when: "'svn' == symfony2_deploy_strategy"
+
+- include: deploy-rsync.yml
+  when: "'rsync' == symfony2_deploy_strategy"
+
+
+- name: Symfony2 | Deploy | Check deployment result
+  set_fact:
+    symfony2_deploy_failed={{ symfony2_git_deploy|failed or symfony2_hg_deploy|failed or symfony2_svn_deploy|failed or symfony2_rsync_deploy|failed }}
+
+- include: failed.yml
+  when: symfony2_deploy_failed

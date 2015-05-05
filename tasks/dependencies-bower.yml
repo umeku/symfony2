@@ -1,0 +1,11 @@
+---
+
+- name: Symfony2 | Dependencies | Bower | Run bower install
+  shell: >
+    cd {{ symfony2_current_release }} && {{ symfony2_bower_cmd }} install
+  register: bower_install
+  ignore_errors: true
+
+- include: failed.yml
+  when: bower_install|failed
+

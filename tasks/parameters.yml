@@ -1,0 +1,8 @@
+---
+
+- name: Symfony2 | Parameters | Generate from template
+  template:
+    src: "{{ item }}.js2"
+    dest: "{{ symfony2_shared_root }}/{{ item }}"
+  with_items: "{{ symfony2_parameters_files }}"
+  when: symfony2_parameters_update|default(false)

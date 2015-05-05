@@ -1,0 +1,10 @@
+---
+
+- name: Symfony2 | Dependencies | Deps | Run bin/vendors install
+  shell: >
+    cd {{ symfony2_current_release }} && {{ symfony2_php_cmd }} {{ symfony2_current_release }}/bin/vendors install
+  ignore_errors: true
+  register: deps_install
+
+- include: failed.yml
+  when: deps_install|failed

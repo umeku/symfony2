@@ -1,0 +1,19 @@
+---
+
+- name: Symfony2 | Symlinks | Remove existing links to shared items
+  file:
+    state: absent
+    path: "{{ symfony2_current_release }}/{{ item }}"
+  with_items: 
+    - "{{ symfony2_shared_dirs }}"
+    - "{{ symfony2_shared_children }}"
+
+- name: Symfony2 | Symlinks | Create symlinks to shared items
+  file:
+    state: link
+    force: yes
+    dest: "{{ symfony2_current_release }}/{{ item }}"
+    src: "{{ symfony2_shared_root }}/{{ item }}"
+  with_items: 
+    - "{{ symfony2_shared_dirs }}"
+    - "{{ symfony2_shared_children }}"

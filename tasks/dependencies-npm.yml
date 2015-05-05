@@ -1,0 +1,11 @@
+---
+
+- name: Symfony2 | Dependencies | npm | Run npm install
+  shell: >
+    cd {{ symfony2_current_release }} && {{ symfony2_npm_cmd }} install
+  register: npm_install
+  ignore_errors: true
+
+- include: failed.yml
+  when: npm_install|failed
+

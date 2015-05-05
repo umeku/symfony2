@@ -1,0 +1,12 @@
+---
+
+- name: Symfony2 | Release | Create link to new application code
+  file:
+    state: link
+    force: yes
+    dest: "{{ symfony2_current_root }}"
+    src: "{{ symfony2_current_release }}"
+  register: result
+
+- include: failed.yml
+  when: result|failed

@@ -1,0 +1,23 @@
+---
+
+- name: Symfony2 | Commands | Run console commands
+  shell: >
+    cd {{ symfony2_current_release }} && SYMFONY_ENV={{ symfony2_environment }} {{ symfony2_php_cmd }} app/console {{ item.command|default(item) }} {{ symfony2_console_options }} {{ item.options|default('') }}
+  with_items: symfony2_console_commands
+  when: symfony2_console_commands != false
+  ignore_errors: true
+  register: result
+
+- include: failed.yml
+  when: result|failed
+
+- name: Symfony2 | Commands | Run extra commands
+  shell: >
+    cd {{ symfony2_current_release }} && {{ item.command|default(item) }} {{ item.options|default('') }}
+  with_items: symfony2_extra_commands
+  when: symfony2_extra_commands != false
+  ignore_errors: true
+  register: result
+
+- include: failed.yml
+  when: result|failed

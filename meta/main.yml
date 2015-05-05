@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: umeku
+  description: Ansible role to deploy Symfony2 applications. Based off igor_mukhin.symfony2 role.
+  license: MIT
+  min_ansible_version: 1.5
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  categories:
+  - web
+dependencies: []
+  

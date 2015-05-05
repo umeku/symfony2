@@ -1,0 +1,9 @@
+---
+
+- name: Symfony2 | Deploy | Mercurial | Pull sources from the repository
+  hg:
+    repo: "{{ symfony2_repo }}"
+    dest: "{{ symfony2_current_release }}"
+    revision: "{{ symfony2_branch }}"
+  ignore_errors: true
+  register: symfony2_hg_deploy

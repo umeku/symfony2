@@ -1,0 +1,111 @@
+---
+
+### Environment configuration ###
+
+symfony2_name: symfony
+symfony2_domain: "{{ symfony2_name }}.com"
+symfony2_root: "/var/www/{{ symfony2_name }}"
+
+# Symfony environment to execute commands in
+symfony2_environment: prod
+
+# PHP path used to execute commands
+# You can add extra options here, e.g. /usr/bin/php -dmemory_limit=1G
+symfony2_php_cmd: /usr/bin/php
+
+# npm path (only if using npm)
+symfony2_npm_cmd: npm
+
+# Bower path (only if using bower)
+symfony2_bower_cmd: bower
+
+
+### Release configuration ###
+
+# Format to use for release directory
+# Define either symfony2_release version or symfony2_release_format
+symfony2_release_format: "%Y%m%d%H%M%S"
+# symfony2_release: 1
+
+# How many releases will be saved
+# 0 - do not delete any releases
+symfony2_keep_releases: 3
+
+# Delete release directory on deployment error
+symfony2_delete_on_fail: true
+
+
+### Deploy strategies ###
+# 1. Git strategy
+symfony2_deploy_strategy: git
+symfony2_branch: master
+symfony2_repo: git@github.com:symfony/symfony-standard.git
+
+# 2. Mercurial strategy
+# symfony2_deploy_strategy: mercurial
+# symfony2_branch: master
+# symfony2_repo: ...
+
+# 3. SVN strategy
+# symfony2_deploy_strategy: svn
+# symfony2_svn_revision: 1
+# symfony2_repo: ...
+
+# 4. Rsync strategy
+# symfony2_deploy_strategy: rsync
+# symfony2_local_root: /var/www/local-symfony2-application/
+# symfony2_rsync_options: --exclude=.git,--exclude=vendor,--exclude=web/vendor,--exclude=app/logs,--exclude=app/cache
+
+
+### Parameters ###
+
+symfony2_parameters_update: false
+symfony2_parameters_files:
+  - app/config/parameters.yml
+
+
+### Shared files and directories ###
+
+symfony2_shared_dirs:
+  - "app/logs"
+  - "web/uploads"
+
+symfony2_shared_children:
+  - "app/config/parameters.yml"
+
+
+### Dependency installation ###
+
+# Copy vendor directory from current release (speeds up installation)
+symfony2_copy_vendors: false
+
+# Try to install dependencies using the corresponding tool
+# 'deps' is for Symfony 2.0 bin/vendors
+# You can disable unwanted scripts here
+symfony2_use_composer: true
+symfony2_use_deps: false
+symfony2_use_npm: true
+symfony2_use_bower: true
+
+# Define composer path if installed by another role
+# Or leave blank or undefined for downloading composer.phar just into symfony2_root
+#symfony2_composer_path: /usr/local/bin/composer
+symfony2_composer_options: '--no-dev --optimize-autoloader --no-interaction'
+
+
+### Commands ###
+
+# php app/console options
+symfony2_console_options: "--no-interaction"
+
+# php app/console commands to execute
+symfony2_console_commands: false
+# - "assets:install --symlink web"
+# - "assetic:dump --no-debug"
+# - "doctrine:schema:update --force"
+# - "doctrine:migrations:migrate -n"
+# - "cache:warmup"
+
+# extra commands to execute before release
+symfony2_extra_commands: false
+# - "gulp default"

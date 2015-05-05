@@ -1,0 +1,53 @@
+---
+
+- name: Set global variables
+  include: vars.yml
+  tags:
+    - always
+
+- name: Setup directory structure
+  include: setup.yml
+  tags:
+    - setup
+
+- name: Get release number and create release directory
+  include: prepare.yml
+  tags:
+    - deploy
+
+- name: Deploy code
+  include: deploy.yml
+  tags:
+    - deploy
+
+- name: Set parameters
+  include: parameters.yml
+  tags:
+    - deploy
+
+- name: Create symlinks to shared files
+  include: symlinks.yml
+  tags:
+    - deploy
+
+- name: Install dependencies (composer, deps, bower)
+  include: dependencies.yml
+  tags:
+    - deploy
+
+- name: Execute commands
+  include: commands.yml
+  tags:
+    - deploy
+    - commands
+
+- name: Create link to the new release
+  include: release.yml
+  tags:
+    - deploy
+
+- name: Cleanup old releases
+  include: cleanup.yml
+  tags:
+    - deploy
+    - cleanup

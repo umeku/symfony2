@@ -1,0 +1,58 @@
+---
+
+- name: Symfony2 | Dependencies | Check vendors directory from current release
+  stat:
+    path: "{{ symfony2_previous_release }}/vendor"
+  when: symfony2_copy_vendors|default(false) and symfony2_previous_release is defined
+  register: result
+  ignore_errors: true
+
+- name: Symfony2 | Dependencies | Copy vendors directory from current release
+  shell: >
+    cp -R {{ symfony2_previous_release }}/vendor {{ symfony2_current_release }}/vendor
+  when: result|success and not result|skipped and result.stat.exists
+  ignore_errors: true
+
+- name: Symfony2 | Dependencies | Check if composer.json exists
+  stat: 
+    path: "{{ symfony2_current_release }}/composer.json"
+  when: symfony2_use_composer
+  register: composer_json_file
+  ignore_errors: true
+
+- name: Install composer dependencies
+  include: dependencies-composer.yml
+  when: symfony2_use_composer and composer_json_file.stat.exists
+
+- name: Symfony2 | Dependencies | Check if bin/vendors exists (Symfony 2.0)
+  stat:
+    path: "{{ symfony2_current_release }}/bin/vendors"
+  when: symfony2_use_deps
+  register: vendors_file
+  ignore_errors: true
+
+- name: bin/vendors install (Symfony 2.0)
+  include: dependencies-deps.yml
+  when: symfony2_use_deps and vendors_file.stat.exists
+
+- name: Symfony2 | Dependencies | Check if package.json exists
+  stat:
+    path: "{{ symfony2_current_release }}/package.json"
+  when: symfony2_use_npm
+  register: package_file
+  ignore_errors: true
+
+- name: npm install
+  include: dependencies-npm.yml
+  when: symfony2_use_npm and package_file.stat.exists
+
+- name: Symfony2 | Dependencies | Check if bower.json exists
+  stat:
+    path: "{{ symfony2_current_release }}/bower.json"
+  when: symfony2_use_bower
+  register: bower_file
+  ignore_errors: true
+
+- name: Bower install
+  include: dependencies-bower.yml
+  when: symfony2_use_bower and bower_file.stat.exists

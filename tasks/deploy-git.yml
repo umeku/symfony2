@@ -1,0 +1,10 @@
+---
+
+- name: Symfony2 | Deploy | Git | Pull sources from the repository
+  git:
+    repo: "{{ symfony2_repo }}"
+    dest: "{{ symfony2_current_release }}"
+    version: "{{ symfony2_branch }}"
+    force: yes
+  ignore_errors: true
+  register: symfony2_git_deploy

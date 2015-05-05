@@ -1,0 +1,10 @@
+---
+
+- name: Symfony2 | Cleanup on deployment failure
+  file:
+    state: absent
+    path: "{{ symfony2_current_release }}"
+  when: symfony2_delete_on_fail|default(true)
+
+- name: Symfony2 | Check if processing can continue
+  fail: msg="Deployment aborted due to errors"

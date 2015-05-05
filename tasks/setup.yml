@@ -1,0 +1,27 @@
+---
+
+- name: Symfony2 | Setup | Create root directories
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ symfony2_release_root }}"
+    - "{{ symfony2_shared_root }}"
+
+- name: Symfony2 | Setup | Create shared directories
+  file:
+    state: directory
+    path: "{{ symfony2_shared_root }}/{{ item }}"
+  with_items: "{{ symfony2_shared_dirs }}"
+
+- name: Symfony2 | Setup | Create directories for shared files
+  file:
+    state: directory
+    path: "{{ symfony2_shared_root }}/{{ item | dirname }}"
+  with_items: "{{ symfony2_shared_children }}"
+
+- name: Symfony2 | Setup | Create shared files
+  file:
+    state: touch
+    path: "{{ symfony2_shared_root }}/{{ item }}"
+  with_items: "{{ symfony2_shared_children }}"
